@@ -4,6 +4,7 @@ public class CameraControl : MonoBehaviour
 {
     public Transform player;
     public float mouseSensitivity = 100f;
+    public float fixedCameraHeight = 2f;  // Set this to the desired fixed height
     private float xRotation = 0f;
 
     void Update()
@@ -19,6 +20,7 @@ public class CameraControl : MonoBehaviour
         // Set the camera's rotation directly for up and down movement
         transform.localRotation = Quaternion.Euler(xRotation, player.eulerAngles.y, 0f);
 
-        transform.position = player.position;  // Keeps the camera at the player's position
+        // Keep the camera's Y position static while following the player's X and Z positions
+        transform.position = new Vector3(player.position.x, fixedCameraHeight, player.position.z);
     }
 }
