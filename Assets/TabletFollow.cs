@@ -3,22 +3,18 @@ using UnityEngine;
 public class TabletFollow : MonoBehaviour
 {
     public Transform player;
-    public float yOffset = 1f;  // Distance from the player's position on the Y axis
-    public float yFactor = 0.5f;  // Factor by which the tablet's Y position should change relative to the player's Y position
+    public Vector3 offset;  // Offset of the tablet relative to the player
+    public float rotationSpeed = 700f;  // Speed of rotation
 
     void Update()
     {
-        // Calculate the new position for the tablet
-        Vector3 newPosition = new Vector3(
-            player.position.x,
-            transform.position.y + (player.position.y - transform.position.y) * yFactor,
-            player.position.z
-        );
+        // Update the position of the tablet based on the player's position and the offset
+        transform.position = player.position + offset;
 
-        // Add the yOffset to the Y position
-        newPosition.y += yOffset;
+        // Get the player's turning input
+        float turnInput = Input.GetAxis("Horizontal") * rotationSpeed * Time.deltaTime;
 
-        // Set the tablet's position to the new position
-        transform.position = newPosition;
+        // Rotate the tablet along with the player based on input
+        transform.RotateAround(player.position, Vector3.up, turnInput);
     }
 }
