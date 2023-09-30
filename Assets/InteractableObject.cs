@@ -64,6 +64,8 @@ public class InteractableObject : MonoBehaviour
         }
         rb.isKinematic = true;
         transform.localRotation = Quaternion.Euler(rotationOffset);
+        Collider col = GetComponent<Collider>();
+        if (col) col.enabled = false;
     }
 
     public void Drop()
@@ -77,6 +79,8 @@ public class InteractableObject : MonoBehaviour
 
         Rigidbody rb = GetComponent<Rigidbody>();
         rb.isKinematic = false;
+        Collider col = GetComponent<Collider>();
+        if (col) col.enabled = true;
     }
 
     void SetHeldPosition()
