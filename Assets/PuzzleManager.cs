@@ -1,15 +1,17 @@
 using UnityEngine;
+using System.Collections;
 
 public class PuzzleManager : MonoBehaviour
 {
     public Camera playerCamera;
-    public PlayerMovement playerMovement;  // Assume this is your script controlling player movement
+    public Transform puzzleTransform;  // Assign the puzzle object's transform here
+    public Vector3 cameraFocusOffset;  // Offset from the puzzle's position to focus the camera
+    public float cameraTransitionDuration = 1.0f;
+    private Vector3 originalCameraPosition;
+    private Quaternion originalCameraRotation;
     private bool isPuzzleActive = false;
     private float interactionTime = 0f;
     private const float requiredInteractionTime = 2f;
-    private Vector3 originalCameraPosition;
-    private Quaternion originalCameraRotation;
-    private GameObject heldObject;
 
     void Update()
     {
@@ -19,7 +21,6 @@ public class PuzzleManager : MonoBehaviour
             {
                 DeactivatePuzzle();
             }
-            // ... (rest of the puzzle interaction code) ...
         }
         else
         {
@@ -43,34 +44,35 @@ public class PuzzleManager : MonoBehaviour
         isPuzzleActive = true;
         originalCameraPosition = playerCamera.transform.position;
         originalCameraRotation = playerCamera.transform.rotation;
-
-        // Move camera to focus on the puzzle
-        playerCamera.transform.position = transform.position + new Vector3(0, 2, -5);  // Adjust values to focus on puzzle
-        playerCamera.transform.LookAt(transform.position);
-
-        // Lock player movement
-        playerMovement.enabled = false;
         
-        // Unlock cursor
+        Vector3 targetPosition = puzzleTransform.position + cameraFocusOffset;
+        StartCoroutine(CameraTransition(targetPosition, puzzleTransform.rotation));
+
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+    }
+
+    IEnumerator CameraTransition(Vector3 targetPosition, Quaternion targetRotation)
+    {
+        float elapsedTime = 0f;
+        while (elapsedTime < cameraTransitionDuration)
+        {
+            float t = elapsedTime / cameraTransitionDuration;
+            playerCamera.transform.position = Vector3.Lerp(originalCameraPosition, targetPosition, t);
+            playerCamera.transform.rotation = Quaternion.Slerp(originalCameraRotation, targetRotation, t);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        playerCamera.transform.position = targetPosition;
+        playerCamera.transform.rotation = targetRotation;
     }
 
     void DeactivatePuzzle()
     {
         isPuzzleActive = false;
-
-        // Restore camera position and rotation
-        playerCamera.transform.position = originalCameraPosition;
-        playerCamera.transform.rotation = originalCameraRotation;
-
-        // Re-enable player movement
-        playerMovement.enabled = true;
+        StartCoroutine(CameraTransition(originalCameraPosition, originalCameraRotation));
         
-        // Lock cursor
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
-
-    // ... (rest of your script) ...
 }
