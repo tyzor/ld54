@@ -2,49 +2,36 @@ using UnityEngine;
 
 public class PlayerInteraction : MonoBehaviour
 {
+    public Camera playerCamera;
     public float interactDistance = 2f;
-    public Vector3 heldObjectPosition = new Vector3(1.2f, 1.8f, -0.5f);
-    private InteractableObject selectedObject;
-    private InteractableObject heldObject;
+    public LayerMask interactableLayer;
+
+    private InteractableObject heldObject;  // Reference to the currently held object
 
     void Update()
     {
-        // Handle object selection
+        Ray ray = playerCamera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.forward, out hit, interactDistance))
+
+        if (Input.GetKeyDown(KeyCode.E) && heldObject != null)
         {
-            InteractableObject interactableObject = hit.collider.GetComponent<InteractableObject>();
-            if (interactableObject != null && interactableObject != heldObject)
-            {
-                if (selectedObject != null)
-                {
-                    selectedObject.GetComponent<ObjectHighlight>().RemoveHighlight();
-                }
-                selectedObject = interactableObject;
-                selectedObject.GetComponent<ObjectHighlight>().Highlight();
-            }
+            Debug.Log("Dropping object");
+            heldObject.Drop();
+            heldObject = null;
         }
-        else if (selectedObject != null)
+        else if (Physics.Raycast(ray, out hit, interactDistance, interactableLayer))
         {
-            selectedObject.GetComponent<ObjectHighlight>().RemoveHighlight();
-            selectedObject = null;
+            Debug.Log("Raycast hit: " + hit.collider.name);
+            InteractableObject interactableObject = hit.collider.GetComponent<InteractableObject>();
+            if (interactableObject != null && Input.GetKeyDown(KeyCode.E) && heldObject == null)
+            {
+                Debug.Log("Picking up object");
+                interactableObject.PickUp(playerCamera);
+                heldObject = interactableObject;
+            }
         }
 
-        // Handle object interaction
-        if (Input.GetKeyDown(KeyCode.E) && selectedObject != null)
-        {
-            if (heldObject != null)
-            {
-                heldObject.Drop();
-                heldObject = null;
-            }
-            else
-            {
-                selectedObject.PickUp(transform, heldObjectPosition);
-                heldObject = selectedObject;
-                selectedObject.GetComponent<ObjectHighlight>().RemoveHighlight();
-                selectedObject = null;
-            }
-        }
+        // Debug line to visualize the raycast
+        Debug.DrawLine(ray.origin, ray.origin + ray.direction * interactDistance, Color.red);
     }
 }

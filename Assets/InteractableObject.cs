@@ -3,36 +3,64 @@ using UnityEngine;
 public class InteractableObject : MonoBehaviour
 {
     public bool isBeingHeld { get; private set; }
+    public float heldDistance = 0f;  // Distance from the player camera
+    public Vector3 rotationOffset;  // Rotation offset to show the desired side
+    public Vector3 positionOffset = Vector3.zero;  // Position offset to show the desired position
 
-    public void PickUp(Transform newParent, Vector3 relativePosition)
-{
-    isBeingHeld = true;
-    transform.SetParent(newParent);
-    transform.localPosition = relativePosition;
-    transform.localRotation = Quaternion.identity;
-    // Ensure there's a Rigidbody, and set it to kinematic
-    Rigidbody rb = GetComponent<Rigidbody>();
-    if (!rb)
+    private Transform originalParent;  // Store the original parent of the object
+
+    public void PickUp(Camera playerCamera)
     {
-        rb = gameObject.AddComponent<Rigidbody>();
+        isBeingHeld = true;
+        originalParent = transform.parent;  // Store the original parent
+        transform.SetParent(playerCamera.transform);  // Set the camera as the new parent
+        SetHeldPosition();
+        SetHeldRotation();
+        Rigidbody rb = GetComponent<Rigidbody>();
+        if (!rb)
+        {
+            rb = gameObject.AddComponent<Rigidbody>();
+        }
+        rb.isKinematic = true;
     }
-    rb.isKinematic = true;
-}
-
 
     public void Drop()
     {
         isBeingHeld = false;
-        transform.SetParent(null);
-        GetComponent<Rigidbody>().isKinematic = false;
+
+        // Temporarily store the current position and rotation
+        Vector3 currentPosition = transform.position;
+        Quaternion currentRotation = transform.rotation;
+
+        // Unparent the object
+        transform.SetParent(originalParent, false);
+
+        // Restore the position and rotation
+        transform.position = currentPosition;
+        transform.rotation = currentRotation;
+
+        Rigidbody rb = GetComponent<Rigidbody>();
+        rb.isKinematic = false;
     }
 
     void Update()
     {
         if (isBeingHeld)
         {
-            // Ensure the object faces the player while being held
-            transform.forward = -transform.parent.forward;
+            SetHeldPosition();
+            SetHeldRotation();
         }
+    }
+
+    void SetHeldPosition()
+    {
+        Vector3 targetPosition = transform.parent.position + transform.parent.forward * heldDistance + positionOffset;
+        transform.position = targetPosition;
+    }
+
+    void SetHeldRotation()
+    {
+        Quaternion targetRotation = transform.parent.rotation * Quaternion.Euler(rotationOffset);
+        transform.rotation = targetRotation;
     }
 }
