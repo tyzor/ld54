@@ -1,17 +1,74 @@
-using UnityEngine;
 using System.Collections;
+using UnityEngine;
 
 public class PuzzleManager : MonoBehaviour
 {
     public Camera playerCamera;
-    public Transform puzzleTransform;  // Assign the puzzle object's transform here
-    public Vector3 cameraFocusOffset;  // Offset from the puzzle's position to focus the camera
-    public float cameraTransitionDuration = 1.0f;
-    private Vector3 originalCameraPosition;
-    private Quaternion originalCameraRotation;
+    public Camera puzzleCamera;
+    public Vector3 puzzleCameraOffset;
+    public LayerMask puzzleLayer;
+    public PlayerMovement playerMovement;
+    public Puzzle[] puzzles;  // Reference to an array of Puzzle script objects
+    public float resetTimer = 300f;  // Set the timer for resetting puzzles
+
+    private Puzzle selectedPuzzle;
+    private Transform puzzleTransform;
     private bool isPuzzleActive = false;
-    private float interactionTime = 0f;
-    private const float requiredInteractionTime = 2f;
+
+    void Start()
+    {
+        puzzleLayer = LayerMask.GetMask("puzzleLayer");
+        StartCoroutine(PuzzleResetCoroutine());
+    }
+
+public void DetectPuzzle(Ray ray)  // Change this line to make the method public
+{
+    RaycastHit hit;
+
+    Debug.DrawLine(ray.origin, ray.origin + ray.direction * 10f, Color.red, 2f);  // Visualize the raycast
+
+    if (Physics.Raycast(ray, out hit, Mathf.Infinity, puzzleLayer))
+    {
+        foreach (Puzzle puzzle in puzzles)
+        {
+            if (puzzle.puzzleTransform == hit.transform)
+            {
+                selectedPuzzle = puzzle;
+                puzzleTransform = hit.transform;
+                ActivatePuzzle();
+                break;
+            }
+        }
+    }
+}
+
+    void ActivatePuzzle()
+    {
+        if (selectedPuzzle != null)
+        {
+            isPuzzleActive = true;
+
+            // Set the position and orientation of the puzzle camera
+            Vector3 puzzleCameraPosition = selectedPuzzle.puzzleTransform.position + puzzleCameraOffset;
+            puzzleCamera.transform.position = puzzleCameraPosition;
+            puzzleCamera.transform.LookAt(selectedPuzzle.puzzleTransform);
+
+            // Enable the puzzle camera and disable the player camera
+            puzzleCamera.gameObject.SetActive(true);
+            playerCamera.gameObject.SetActive(false);
+
+            // Disable player movement
+            playerMovement.enabled = false;
+
+            // Unlock the cursor and make it visible
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+        else
+        {
+            Debug.LogWarning("No puzzle selected. Cannot activate puzzle.");
+        }
+    }
 
     void Update()
     {
@@ -22,57 +79,39 @@ public class PuzzleManager : MonoBehaviour
                 DeactivatePuzzle();
             }
         }
-        else
-        {
-            if (Input.GetKey(KeyCode.E))
-            {
-                interactionTime += Time.deltaTime;
-                if (interactionTime >= requiredInteractionTime)
-                {
-                    ActivatePuzzle();
-                }
-            }
-            else
-            {
-                interactionTime = 0f;
-            }
-        }
-    }
-
-    void ActivatePuzzle()
-    {
-        isPuzzleActive = true;
-        originalCameraPosition = playerCamera.transform.position;
-        originalCameraRotation = playerCamera.transform.rotation;
-        
-        Vector3 targetPosition = puzzleTransform.position + cameraFocusOffset;
-        StartCoroutine(CameraTransition(targetPosition, puzzleTransform.rotation));
-
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
-    }
-
-    IEnumerator CameraTransition(Vector3 targetPosition, Quaternion targetRotation)
-    {
-        float elapsedTime = 0f;
-        while (elapsedTime < cameraTransitionDuration)
-        {
-            float t = elapsedTime / cameraTransitionDuration;
-            playerCamera.transform.position = Vector3.Lerp(originalCameraPosition, targetPosition, t);
-            playerCamera.transform.rotation = Quaternion.Slerp(originalCameraRotation, targetRotation, t);
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-        playerCamera.transform.position = targetPosition;
-        playerCamera.transform.rotation = targetRotation;
     }
 
     void DeactivatePuzzle()
     {
         isPuzzleActive = false;
-        StartCoroutine(CameraTransition(originalCameraPosition, originalCameraRotation));
-        
+
+        // Enable the player camera and disable the puzzle camera
+        playerCamera.gameObject.SetActive(true);
+        puzzleCamera.gameObject.SetActive(false);
+
+        // Re-enable player movement
+        playerMovement.enabled = true;
+
+        // Lock the cursor and make it invisible
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+    }
+
+    private IEnumerator PuzzleResetCoroutine()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(resetTimer);
+
+            int randomIndex = Random.Range(0, puzzles.Length);
+            Puzzle puzzleToReset = puzzles[randomIndex];
+            puzzleToReset.isCompleted = false;
+            ResetPuzzle(puzzleToReset);
+        }
+    }
+
+    private void ResetPuzzle(Puzzle puzzle)
+    {
+        // Implement the logic to reset the physical state of the puzzle
     }
 }
