@@ -10,7 +10,7 @@ public class PlayerInteraction : MonoBehaviour
 
     void Update()
     {
-        Ray ray = playerCamera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
+        Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
         if (Input.GetKeyDown(KeyCode.E) && heldObject != null)
