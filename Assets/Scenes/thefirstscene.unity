@@ -2764,8 +2764,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1062926122}
-  - component: {fileID: 1062926123}
   - component: {fileID: 1062926124}
+  - component: {fileID: 1062926123}
+  - component: {fileID: 1062926125}
   m_Layer: 7
   m_Name: number_slider_holder
   m_TagString: Untagged
@@ -2841,6 +2842,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.12508422, y: 0.1462791, z: 0.095383644}
   m_Center: {x: 0.037430137, y: -0.045345068, z: 0.028233528}
+--- !u!114 &1062926125
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1062926121}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 206538f449a4e5043a9dee6f45a65f76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  puzzleName: slider
+  puzzleType: 1
 --- !u!1 &1075559600
 GameObject:
   m_ObjectHideFlags: 0
@@ -2877,9 +2892,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   playerMovement: {fileID: 858479275}
-  puzzles: []
-  mainDisplayText: {fileID: 0}
-  resetTimer: 300
+  wattagePuzzle: {fileID: 0}
 --- !u!4 &1075559602
 Transform:
   m_ObjectHideFlags: 0
@@ -3432,6 +3445,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 858479279}
+  playerCamera: {fileID: 0}
   mouseSensitivity: 350
   fixedCameraHeight: 2
 --- !u!81 &1176241781
@@ -5056,6 +5070,7 @@ GameObject:
   - component: {fileID: 1702663209}
   - component: {fileID: 1702663208}
   - component: {fileID: 1702663210}
+  - component: {fileID: 1702663211}
   m_Layer: 0
   m_Name: wattage_game_holder
   m_TagString: Untagged
@@ -5118,7 +5133,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1702663207}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 14b5271fc99b3cd43b5034004e4acf42, type: 2}
   m_CullingMode: 0
@@ -5131,6 +5146,20 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1702663211
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1702663207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 206538f449a4e5043a9dee6f45a65f76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  puzzleName: wattage
+  puzzleType: 0
 --- !u!1 &1743200860
 GameObject:
   m_ObjectHideFlags: 0

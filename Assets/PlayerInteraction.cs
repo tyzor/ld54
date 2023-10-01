@@ -11,48 +11,40 @@ public class PlayerInteraction : MonoBehaviour
     private float interactionTime = 0f;  // Variable to track interaction time
 
   void Update()
+{
+    Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
+    RaycastHit hit;
+
+    if (Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask.GetMask("puzzleLayer")))
     {
-        Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
+        Debug.Log("Raycast hit on puzzleLayer: " + hit.collider.name);
+    }
 
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask.GetMask("puzzleLayer")))
+    if (Input.GetKeyDown(KeyCode.E) && heldObject != null)
+    {
+        Debug.Log("Dropping object");
+        heldObject.Drop();
+        heldObject = null;
+    }
+    else if (Physics.Raycast(ray, out hit, interactDistance, interactableLayer))
+    {
+        Debug.Log("Raycast hit: " + hit.collider.name);
+        InteractableObject interactableObject = hit.collider.GetComponent<InteractableObject>();
+        if (interactableObject != null && Input.GetKeyDown(KeyCode.E) && heldObject == null)
         {
-            Debug.Log("Raycast hit on puzzleLayer: " + hit.collider.name);
+            Debug.Log("Picking up object");
+            interactableObject.PickUp(playerCamera);
+            heldObject = interactableObject;
         }
-
-        if (Input.GetKeyDown(KeyCode.E) && heldObject != null)
-        {
-            Debug.Log("Dropping object");
-            heldObject.Drop();
-            heldObject = null;
-        }
-        else if (Physics.Raycast(ray, out hit, interactDistance, interactableLayer))
-        {
-            Debug.Log("Raycast hit: " + hit.collider.name);
-            InteractableObject interactableObject = hit.collider.GetComponent<InteractableObject>();
-            if (interactableObject != null && Input.GetKeyDown(KeyCode.E) && heldObject == null)
-            {
-                Debug.Log("Picking up object");
-                interactableObject.PickUp(playerCamera);
-                heldObject = interactableObject;
-            }
-        }
+    }
 
     if (Input.GetKey(KeyCode.E))
     {
-        interactionTime += Time.deltaTime;
-        if (interactionTime >= 0.5f)  // Changed to 0.5 seconds
-        {
-            puzzleManager.DetectPuzzle(ray);  // Update this line
-            interactionTime = 0f;  // Reset interaction time
-        }
-    }
-    else
-    {
-        interactionTime = 0f;  // Reset interaction time
+        puzzleManager.DetectPuzzle(ray);
     }
 
-        // Debug line to visualize the raycast
-        Debug.DrawLine(ray.origin, ray.origin + ray.direction * interactDistance, Color.red);
-    }
+    // Debug line to visualize the raycast
+    Debug.DrawLine(ray.origin, ray.origin + ray.direction * interactDistance, Color.red);
+}
+
 }

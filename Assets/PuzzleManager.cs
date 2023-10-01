@@ -10,8 +10,7 @@ public class PuzzleManager : MonoBehaviour
     public Vector3 puzzleCameraOffset;
     public LayerMask puzzleLayer;
     public PlayerMovement playerMovement;
-    public WattagePuzzle wattagePuzzle;
-    //public SliderPuzzle sliderPuzzle; //this is another puzzle we need to add like wattage puzzle
+
 
     private string activePuzzleName;  // Add this line
 
@@ -24,28 +23,22 @@ public class PuzzleManager : MonoBehaviour
 
     void RandomizePuzzle()
     {
-      //  wattagePuzzle.RandomizePuzzle();
-      //  mainDisplayValue = wattagePuzzle.GetWattageGoal();
-      //  mainDisplayText.text = " " + mainDisplayValue;
+
     }
 
     void CheckPuzzleCompletion()
     {
-       // int currentWattage = wattagePuzzle.GetCurrentWattage();
-       // if (currentWattage == mainDisplayValue)
-        //{
-            // Mark the puzzle as complete and do other necessary actions
-        //}
+
     }
 
-    private IEnumerator PuzzleResetCoroutine()
+private IEnumerator PuzzleResetCoroutine()
+{
+    while (true)
     {
-        while (true)
-        {
-//            yield return new WaitForSeconds(resetTimer);
-            RandomizePuzzle();
-        }
+        yield return new WaitForSeconds(1f);  // Add this line or adjust the time as needed
+        RandomizePuzzle();
     }
+}
 
 public void DetectPuzzle(Ray ray)
 {
@@ -62,8 +55,10 @@ public void DetectPuzzle(Ray ray)
             {
                 case PuzzleIdentifier.PuzzleType.Wattage:
                     // Handle wattage puzzle
+                    ActivatePuzzle(puzzleIdentifier.puzzleName, hit.transform);
                     break;
                 case PuzzleIdentifier.PuzzleType.Slider:
+                    ActivatePuzzle(puzzleIdentifier.puzzleName, hit.transform);
                     // Handle slider puzzle
                     break;
                 // ... other cases for different puzzle types
@@ -80,24 +75,24 @@ public void DetectPuzzle(Ray ray)
     }
 }
 
-
-
-
     public void ActivatePuzzle(string puzzleName, Transform puzzleTransform)
-    {
-        activePuzzleName = puzzleName;
+{
+    activePuzzleName = puzzleName;
 
-        // Disable player movement
-        playerMovement.enabled = false;
+    // Disable player movement
+    playerMovement.enabled = false;
 
-        // Switch cameras
-        playerCamera.enabled = false;
-        puzzleCamera.enabled = true;
+    // Switch cameras
+    playerCamera.gameObject.SetActive(false);  // Updated line
+    puzzleCamera.gameObject.SetActive(true);  // Updated line
 
-        // Position the puzzle camera
-        puzzleCamera.transform.position = puzzleTransform.position + puzzleCameraOffset;
-        puzzleCamera.transform.LookAt(puzzleTransform);
-    }
+    // Position the puzzle camera
+    puzzleCamera.transform.position = puzzleTransform.position + puzzleCameraOffset;
+    puzzleCamera.transform.LookAt(puzzleTransform);
+        Debug.Log("ActivatePuzzle called. Player Camera active: " + playerCamera.gameObject.activeSelf + ", Puzzle Camera active: " + puzzleCamera.gameObject.activeSelf);
+
+}
+
 
 public void DeactivatePuzzle()
 {
@@ -113,7 +108,9 @@ public void DeactivatePuzzle()
     Cursor.visible = false;
 
     // Optionally, you might want to set wattagePuzzle.isActive to false
-    wattagePuzzle.isActive = false;
+    //wattagePuzzle.isActive = false;
+    Debug.Log("DeactivatePuzzle called. Player Camera active: " + playerCamera.gameObject.activeSelf + ", Puzzle Camera active: " + puzzleCamera.gameObject.activeSelf);
+
 }
 
 void Update()
@@ -123,6 +120,4 @@ void Update()
         DeactivatePuzzle();
     }
 }
-
-
 }
