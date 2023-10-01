@@ -18,7 +18,7 @@ public class WattagePuzzle : MonoBehaviour
 
     void Start()
     {
-       // StartCoroutine(PuzzleResetCoroutine());
+
         UpdateUI();
     }
 

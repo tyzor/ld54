@@ -13,10 +13,13 @@ public class PuzzleManager : MonoBehaviour
     public WattagePuzzle wattagePuzzle;
     //public SliderPuzzle sliderPuzzle; //this is another puzzle we need to add like wattage puzzle
 
+    private string activePuzzleName;  // Add this line
+
+
     void Start()
     {
         puzzleLayer = LayerMask.GetMask("puzzleLayer");
-        StartCoroutine(PuzzleResetCoroutine());
+
     }
 
     void RandomizePuzzle()
@@ -39,7 +42,7 @@ public class PuzzleManager : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(resetTimer);
+//            yield return new WaitForSeconds(resetTimer);
             RandomizePuzzle();
         }
     }
