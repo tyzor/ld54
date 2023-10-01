@@ -41,9 +41,13 @@ public class PlayerInteraction : MonoBehaviour
             Debug.DrawRay(Camera.main.transform.position,ray.direction * PuzzleRange, Color.yellow);
             if(Physics.Raycast(ray, out hit, PuzzleRange, layerMask))
             {
-                Puzzle hitPuzzle = hit.transform.gameObject.GetComponent<Puzzle>();
-                if(Input.GetKeyDown(KeyCode.E))
-                    EngagePuzzle(hitPuzzle);                
+                Debug.Log(hit.transform.name);
+                Puzzle hitPuzzle;
+                if( Input.GetKeyDown(KeyCode.E) && hit.transform.gameObject.TryGetComponent<Puzzle>(out hitPuzzle))
+                {
+                    EngagePuzzle(hitPuzzle);
+                }
+                
             }
         }
 
@@ -69,6 +73,8 @@ public class PlayerInteraction : MonoBehaviour
         PuzzleCamera.Follow = puzzle.CameraLockPoint;
         PuzzleCamera.LookAt = puzzle.transform;
 
+        GetComponent<Rigidbody>().isKinematic = true;
+
         Cursor.lockState = CursorLockMode.Confined;
                 
     }
@@ -81,6 +87,8 @@ public class PlayerInteraction : MonoBehaviour
 
         PlayerCamera.gameObject.SetActive(true);
         PuzzleCamera.gameObject.SetActive(false);
+
+        GetComponent<Rigidbody>().isKinematic = false;
 
         Cursor.lockState = CursorLockMode.Locked;
     }

@@ -185,8 +185,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.8823848, y: 1, z: 1}
-  m_Center: {x: -0.40154624, y: 0, z: 0}
+  m_Size: {x: 0.81004465, y: 1, z: 1}
+  m_Center: {x: -0.4377163, y: 0, z: 0}
 --- !u!1001 &1689577366195598296
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -199,6 +199,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PuzzleTopPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 2917237215553257864, guid: 3dabc40722375584686cc286ab49c4cd,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8933710371781448456, guid: 3dabc40722375584686cc286ab49c4cd,
         type: 3}
