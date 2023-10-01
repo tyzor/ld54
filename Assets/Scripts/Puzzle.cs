@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Puzzle : MonoBehaviour
@@ -10,7 +11,20 @@ public class Puzzle : MonoBehaviour
         Good
     }
 
+    public enum PuzzleType {
+        Test,
+        Wattage,
+        Slider
+    }
+
+    public PuzzleType type = PuzzleType.Test;
+
     public PuzzleState state = PuzzleState.Bad;
+
+    [SerializeField]
+    private Transform coverPanel;
+
+    public Transform CameraLockPoint;
 
     // Start is called before the first frame update
     void Start()
@@ -22,5 +36,16 @@ public class Puzzle : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void ActivatePuzzle()
+    {
+        Debug.Log($"Activating puzzle {gameObject.name}");
+
+        var rb = coverPanel.GetComponent<Rigidbody>();
+        rb.isKinematic = false;       
+
+        this.state = PuzzleState.Bad;
+
     }
 }

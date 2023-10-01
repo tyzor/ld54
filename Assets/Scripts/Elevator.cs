@@ -12,6 +12,12 @@ public class Elevator : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI floorIndicatorText;
 
+    // LIGHTS
+    [SerializeField]
+    private Light mainLight;
+    [SerializeField]
+    private List<GameObject> ceilingLights;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -23,7 +29,6 @@ public class Elevator : MonoBehaviour
     {
         if(!testing && floorNumber > 1)
             StartCoroutine(UpdateFloorNumber());
-        
     }
 
     // TODO -- remove this after done testing

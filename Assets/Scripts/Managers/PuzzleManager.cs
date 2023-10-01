@@ -6,8 +6,6 @@ public class PuzzleManager : MonoBehaviour
 {
     [SerializeField]
     private List<Puzzle> PuzzlePrefabs; // puzzle prefabs
-    [SerializeField]
-    private GameObject CoverPanel;
 
     [SerializeField]
     private GameObject PuzzlePointsPrefab; // areas where puzzles can be placed
@@ -16,19 +14,28 @@ public class PuzzleManager : MonoBehaviour
     private List<Puzzle> m_ActivePuzzles;
     private List<Puzzle> m_CurrentPuzzles;
 
+
+    [SerializeField]
+    private PlayerMovement playerMovement;
+
     // Start is called before the first frame update
     void Start()
     {
+
+        m_ActivePuzzles = new List<Puzzle>();
+        m_CurrentPuzzles = new List<Puzzle>();
+
         // Spawn puzzles
         m_PuzzlePoints = new List<Transform>();
         foreach(Transform child in PuzzlePointsPrefab.transform)
         {
             m_PuzzlePoints.Add(child);
         }
-
-
-        SpawnPanels();        
+   
         SpawnPuzzles();
+
+        StartCoroutine(StartTestPuzzle());
+
 
     }
 
@@ -38,26 +45,31 @@ public class PuzzleManager : MonoBehaviour
         
     }
 
-    // Create the puzzle covers
-    void SpawnPanels() {
-        foreach(var pt in m_PuzzlePoints)
-        {
-            var panel = Instantiate(CoverPanel);
-            panel.transform.position = pt.position;
-            panel.transform.rotation = pt.rotation;
-            // Rotate to match
-
-        }
-    }
-
     void SpawnPuzzles() {
         foreach(var pt in m_PuzzlePoints)
         {
-            var panel = Instantiate(PuzzlePrefabs[0]);
-            panel.transform.position = pt.position;
-            panel.transform.rotation = pt.rotation;
-            // Rotate to match
+            var puzzle = Instantiate(PuzzlePrefabs[0]);
+            puzzle.transform.position = pt.position;
+            puzzle.transform.rotation = pt.rotation;
 
+            m_CurrentPuzzles.Add(puzzle);
         }
+    }
+
+    IEnumerator StartTestPuzzle()
+    {
+        yield return new WaitForSeconds(1);
+        
+        foreach(var puzzle in m_CurrentPuzzles)
+        {
+            if(puzzle.state == Puzzle.PuzzleState.Hidden)
+            {
+                puzzle.ActivatePuzzle();
+                m_ActivePuzzles.Add(puzzle);
+                break;
+            }
+        }
+
+        StartCoroutine(StartTestPuzzle());
     }
 }

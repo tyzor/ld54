@@ -23,7 +23,7 @@ public class DoorManager : MonoBehaviour
     void Update()
     {
         // TODO -- remove, used for testing
-        if(Input.GetKey(KeyCode.E) && !isToggling)
+        if(Input.GetKey(KeyCode.F) && !isToggling)
         {
             StartCoroutine(ToggleDoors());
         }
@@ -43,7 +43,6 @@ public class DoorManager : MonoBehaviour
     private IEnumerator ToggleDoors()
     {
         isToggling = true;
-        Debug.Log("Toggling doors");
 
         m_DoorOpen = !m_DoorOpen;
         var animName = m_DoorOpen ? "DoorsOpen" : "DoorsClose";
