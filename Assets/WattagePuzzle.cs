@@ -8,39 +8,36 @@ public class WattagePuzzle : MonoBehaviour
     public GameObject[] levers;
     public TMP_Text currentWattageText;
     public TMP_Text targetWattageText;
-    public Text mainDisplayText;
-    public float resetTimer = 300f;
-
     private int wattageGoal;
     private int currentWattage;
-    private int mainDisplayValue;
     public bool isActive { get; set; }
 
     void Start()
     {
-
+        RandomizePuzzle();
         UpdateUI();
     }
 
     public void RandomizePuzzle()
     {
         wattageGoal = Random.Range(110, 221);
-        int divisor = Random.Range(1, 5);
-        int[] leverValues = new int[4];
-        leverValues[0] = wattageGoal / divisor;
-
-        for (int i = 1; i < 4; i++)
+        int correctLeversCount = Random.Range(2, 5);  // Generates 2, 3, or 4
+        int fakeLeversCount = 4 - correctLeversCount;
+        
+        // This assumes that the order of levers in the array doesn't matter
+        for (int i = 0; i < correctLeversCount; i++)
         {
-            leverValues[i] = Random.Range(10, 61);
+            int value = Random.Range(10, 61);
+            leverDisplays[i].text = value.ToString();
         }
 
-        for (int i = 0; i < 4; i++)
+        for (int i = correctLeversCount; i < 4; i++)
         {
-            leverDisplays[i].text = leverValues[i].ToString();
+            int value = Random.Range(1, 10);  // Assuming fake levers have values between 1 and 9
+            leverDisplays[i].text = value.ToString();
         }
 
-        mainDisplayValue = wattageGoal;
-        mainDisplayText.text = "Main Display: " + mainDisplayValue;
+        targetWattageText.text = wattageGoal.ToString();
     }
 
     public void ToggleLever(int leverIndex)
@@ -55,16 +52,23 @@ public class WattagePuzzle : MonoBehaviour
     public void UpdateUI()
     {
         currentWattageText.text = currentWattage.ToString();
-        targetWattageText.text = wattageGoal.ToString();
     }
 
     public void CheckPuzzleCompletion()
     {
-        if (currentWattage == mainDisplayValue)
+        if (currentWattage == wattageGoal)
         {
+            Debug.Log("Puzzle Completed!");
             // Mark the puzzle as complete and do other necessary actions
             // ...
+            Invoke("DeactivatePuzzle", 2f);  // Deactivate the puzzle after 2 seconds
         }
+    }
+
+    private void DeactivatePuzzle()
+    {
+        isActive = false;
+        // ... any other deactivation logic ...
     }
 
     public int GetWattageGoal()
