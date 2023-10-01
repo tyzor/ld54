@@ -19,7 +19,7 @@ public class PuzzleManager : MonoBehaviour
     void Start()
     {
         puzzleLayer = LayerMask.GetMask("puzzleLayer");
-
+        StartCoroutine(PuzzleResetCoroutine());  // Start the coroutine
     }
 
     void RandomizePuzzle()
@@ -52,23 +52,26 @@ public void DetectPuzzle(Ray ray)
     RaycastHit hit;
     if (Physics.Raycast(ray, out hit, Mathf.Infinity, puzzleLayer))
     {
-        Debug.Log("Raycast hit: " + hit.collider.name);
-        if (wattagePuzzle.transform == hit.transform)
+        PuzzleIdentifier puzzleIdentifier = hit.collider.GetComponent<PuzzleIdentifier>();
+        if (puzzleIdentifier != null)
         {
-            wattagePuzzle.isActive = true;
-
-            // Switch to the puzzle camera and disable the player camera
-            puzzleCamera.gameObject.SetActive(true);
-            playerCamera.gameObject.SetActive(false);
-
-            // Disable player movement
-            playerMovement.enabled = false;
-
-            // Unlock the cursor and make it visible
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-
-            Debug.Log("Puzzle detected, switching to puzzle camera.");
+            Debug.Log("Raycast hit on puzzleLayer: " + puzzleIdentifier.puzzleName);
+            
+            // ... rest of your code ...
+            switch(puzzleIdentifier.puzzleType)
+            {
+                case PuzzleIdentifier.PuzzleType.Wattage:
+                    // Handle wattage puzzle
+                    break;
+                case PuzzleIdentifier.PuzzleType.Slider:
+                    // Handle slider puzzle
+                    break;
+                // ... other cases for different puzzle types
+            }
+        }
+        else
+        {
+            Debug.Log("No puzzle detected.");
         }
     }
     else
@@ -76,6 +79,8 @@ public void DetectPuzzle(Ray ray)
         Debug.Log("No puzzle detected.");
     }
 }
+
+
 
 
     public void ActivatePuzzle(string puzzleName, Transform puzzleTransform)
