@@ -3,9 +3,16 @@ using UnityEngine;
 public class CameraControl : MonoBehaviour
 {
     public Transform player;
+    public Camera playerCamera;  // Define the camera reference here
     public float mouseSensitivity = 100f;
     public float fixedCameraHeight = 2f;  // Set this to the desired fixed height
     private float xRotation = 0f;
+
+    void Start()
+    {
+        playerCamera.transform.rotation = Quaternion.Euler(0, 0, 0);  // Reset rotation to look straight ahead
+        // ... rest of your code ...
+    }
 
     void Update()
     {

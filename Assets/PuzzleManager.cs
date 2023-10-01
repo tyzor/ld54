@@ -11,9 +11,7 @@ public class PuzzleManager : MonoBehaviour
     public LayerMask puzzleLayer;
     public PlayerMovement playerMovement;
     public WattagePuzzle wattagePuzzle;
-    public Text mainDisplayText;
-    public float resetTimer = 300f;
-    private int mainDisplayValue;
+    //public SliderPuzzle sliderPuzzle; //this is another puzzle we need to add like wattage puzzle
 
     void Start()
     {
@@ -23,18 +21,18 @@ public class PuzzleManager : MonoBehaviour
 
     void RandomizePuzzle()
     {
-        wattagePuzzle.RandomizePuzzle();
-        mainDisplayValue = wattagePuzzle.GetWattageGoal();
-        mainDisplayText.text = "Main Display: " + mainDisplayValue;
+      //  wattagePuzzle.RandomizePuzzle();
+      //  mainDisplayValue = wattagePuzzle.GetWattageGoal();
+      //  mainDisplayText.text = " " + mainDisplayValue;
     }
 
     void CheckPuzzleCompletion()
     {
-        int currentWattage = wattagePuzzle.GetCurrentWattage();
-        if (currentWattage == mainDisplayValue)
-        {
+       // int currentWattage = wattagePuzzle.GetCurrentWattage();
+       // if (currentWattage == mainDisplayValue)
+        //{
             // Mark the puzzle as complete and do other necessary actions
-        }
+        //}
     }
 
     private IEnumerator PuzzleResetCoroutine()
@@ -51,7 +49,7 @@ public void DetectPuzzle(Ray ray)
     RaycastHit hit;
     if (Physics.Raycast(ray, out hit, Mathf.Infinity, puzzleLayer))
     {
-        Debug.Log("Raycast hit: " + hit.collider.name);  // Log the name of the hit object
+        Debug.Log("Raycast hit: " + hit.collider.name);
         if (wattagePuzzle.transform == hit.transform)
         {
             wattagePuzzle.isActive = true;
@@ -67,15 +65,31 @@ public void DetectPuzzle(Ray ray)
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
 
-            Debug.Log("Puzzle detected, switching to puzzle camera.");  // Log camera switch
+            Debug.Log("Puzzle detected, switching to puzzle camera.");
         }
     }
     else
     {
-        Debug.Log("No puzzle detected.");  // Log when no puzzle is detected
+        Debug.Log("No puzzle detected.");
     }
 }
 
+
+    public void ActivatePuzzle(string puzzleName, Transform puzzleTransform)
+    {
+        activePuzzleName = puzzleName;
+
+        // Disable player movement
+        playerMovement.enabled = false;
+
+        // Switch cameras
+        playerCamera.enabled = false;
+        puzzleCamera.enabled = true;
+
+        // Position the puzzle camera
+        puzzleCamera.transform.position = puzzleTransform.position + puzzleCameraOffset;
+        puzzleCamera.transform.LookAt(puzzleTransform);
+    }
 
 public void DeactivatePuzzle()
 {

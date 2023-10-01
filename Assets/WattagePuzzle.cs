@@ -8,13 +8,17 @@ public class WattagePuzzle : MonoBehaviour
     public GameObject[] levers;
     public TMP_Text currentWattageText;
     public TMP_Text targetWattageText;
+    public Text mainDisplayText;
+    public float resetTimer = 300f;
+
     private int wattageGoal;
     private int currentWattage;
+    private int mainDisplayValue;
     public bool isActive { get; set; }
 
     void Start()
     {
-        RandomizePuzzle();
+       // StartCoroutine(PuzzleResetCoroutine());
         UpdateUI();
     }
 
@@ -34,6 +38,9 @@ public class WattagePuzzle : MonoBehaviour
         {
             leverDisplays[i].text = leverValues[i].ToString();
         }
+
+        mainDisplayValue = wattageGoal;
+        mainDisplayText.text = "Main Display: " + mainDisplayValue;
     }
 
     public void ToggleLever(int leverIndex)
@@ -53,7 +60,7 @@ public class WattagePuzzle : MonoBehaviour
 
     public void CheckPuzzleCompletion()
     {
-        if (currentWattage == wattageGoal)
+        if (currentWattage == mainDisplayValue)
         {
             // Mark the puzzle as complete and do other necessary actions
             // ...
