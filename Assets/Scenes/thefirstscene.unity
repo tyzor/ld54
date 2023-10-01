@@ -2854,7 +2854,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 206538f449a4e5043a9dee6f45a65f76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  puzzleName: slider
+  puzzleName: tileslider
   puzzleType: 1
 --- !u!1 &1075559600
 GameObject:
@@ -2892,7 +2892,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   playerMovement: {fileID: 858479275}
-  wattagePuzzle: {fileID: 0}
 --- !u!4 &1075559602
 Transform:
   m_ObjectHideFlags: 0
@@ -3445,7 +3444,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 858479279}
-  playerCamera: {fileID: 0}
+  playerCamera: {fileID: 1176241782}
   mouseSensitivity: 350
   fixedCameraHeight: 2
 --- !u!81 &1176241781
@@ -5069,9 +5068,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1702663209}
   - component: {fileID: 1702663208}
-  - component: {fileID: 1702663210}
   - component: {fileID: 1702663211}
-  m_Layer: 0
+  - component: {fileID: 1702663212}
+  m_Layer: 7
   m_Name: wattage_game_holder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5125,27 +5124,6 @@ Transform:
   - {fileID: 1902467178}
   m_Father: {fileID: 1055961581}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &1702663210
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1702663207}
-  m_Enabled: 0
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 14b5271fc99b3cd43b5034004e4acf42, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &1702663211
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5158,8 +5136,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 206538f449a4e5043a9dee6f45a65f76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  puzzleName: wattage
+  puzzleName: lever
   puzzleType: 0
+--- !u!114 &1702663212
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1702663207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e78bfd6c8cf2194419d7981db6699489, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leverDisplays:
+  - {fileID: 1144306687}
+  - {fileID: 597073986}
+  - {fileID: 851544439}
+  - {fileID: 1253421772}
+  levers:
+  - {fileID: 1410455420}
+  - {fileID: 573730792}
+  - {fileID: 429803321}
+  - {fileID: 1620266290}
+  currentWattageText: {fileID: 859588584}
+  targetWattageText: {fileID: 1017370229}
 --- !u!1 &1743200860
 GameObject:
   m_ObjectHideFlags: 0
