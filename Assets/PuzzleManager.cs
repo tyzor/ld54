@@ -10,10 +10,9 @@ public class PuzzleManager : MonoBehaviour
     public Vector3 puzzleCameraOffset;
     public LayerMask puzzleLayer;
     public PlayerMovement playerMovement;
-    public WattageCounterPuzzle[] puzzles;
+    public WattagePuzzle wattagePuzzle;  // Assuming there's only one WattagePuzzle per PuzzleManager
     public Text mainDisplayText;
     public float resetTimer = 300f;
-    private int totalWattage;
     private int mainDisplayValue;
 
     void Start()
@@ -23,37 +22,17 @@ public class PuzzleManager : MonoBehaviour
         StartCoroutine(PuzzleResetCoroutine());
     }
 
-    public void UpdateCurrentWattage(int newWattage)
+    void RandomizePuzzle()
     {
-        totalWattage += newWattage;
-        CheckPuzzleCompletion();
+        wattagePuzzle.RandomizePuzzle();  // Call RandomizePuzzle method on WattagePuzzle
+        mainDisplayValue = wattagePuzzle.GetWattageGoal();  // Assuming you have a method to retrieve the wattageGoal
+        mainDisplayText.text = "Main Display: " + mainDisplayValue;
     }
-
-// Commented out the entire RandomizePuzzle method
-/*
-void RandomizePuzzle()
-{
-    int[] leverValues = new int[4];
-    for (int i = 0; i < 4; i++)
-    {
-        leverValues[i] = Random.Range(1, 10);
-        puzzles[i].wattageValue = leverValues[i];
-        puzzles[i].UpdateUI();
-    }
-
-    int leversToUse = Random.Range(2, 5);
-    mainDisplayValue = 0;
-    for (int i = 0; i < leversToUse; i++)
-    {
-        mainDisplayValue += leverValues[i];
-    }
-    mainDisplayText.text = "Main Display: " + mainDisplayValue;  // This line should now work with TMP_Text
-}
-*/
 
     void CheckPuzzleCompletion()
     {
-        if (totalWattage == mainDisplayValue)
+        int currentWattage = wattagePuzzle.GetCurrentWattage();  // Assuming you have a method to retrieve the currentWattage
+        if (currentWattage == mainDisplayValue)
         {
             // Mark the puzzle as complete and do other necessary actions
         }
@@ -64,24 +43,20 @@ void RandomizePuzzle()
         while (true)
         {
             yield return new WaitForSeconds(resetTimer);
-        // RandomizePuzzle();  // Commented out this line
+            RandomizePuzzle();
         }
     }
 
-     public void DetectPuzzle(Ray ray)
+    public void DetectPuzzle(Ray ray)
     {
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, puzzleLayer))
         {
-            foreach (WattageCounterPuzzle puzzle in puzzles)
+            if (wattagePuzzle.transform == hit.transform)
             {
-                if (puzzle.transform == hit.transform)
-                {
-                    // ... do something when a puzzle is detected
-                    break;
-                }
+                wattagePuzzle.isActive = true;  // Assuming you have an isActive property
+                // ... any other logic when a puzzle is detected
             }
         }
     }
-
 }
