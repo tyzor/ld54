@@ -1,64 +1,40 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class WattageCounterPuzzle : MonoBehaviour
 {
-    public int targetWattage;
-    public int currentWattage;
-    public Switch[] switches;
-    public Text targetWattageText;
-    public Text currentWattageText;
-    public bool isCompleted = false;
+    public int wattageValue;
+    public bool isActive = false;
+    public bool isSwitchOn = false;
+    public TMP_Text switchValueText;
+    private PuzzleManager puzzleManager;
+    private Animator animator;
 
     void Start()
     {
-        InitializePuzzle();
-    }
-
-    void InitializePuzzle()
-    {
-        // Randomly set target wattage between 100 and 300
-        targetWattage = Random.Range(100, 301);
-
-        // Randomly set the number of active switches between 4 and 8
-        int activeSwitchCount = Random.Range(4, 9);
-
-        // Divide the target wattage among the active switches
-        int wattagePerSwitch = targetWattage / activeSwitchCount;
-
-        for (int i = 0; i < activeSwitchCount; i++)
-        {
-            switches[i].wattageValue = wattagePerSwitch;
-            switches[i].isActive = true;
-        }
-
-        UpdateUI();
-    }
-
-    public void UpdateCurrentWattage()
-    {
-        currentWattage = 0;
-        foreach (Switch sw in switches)
-        {
-            if (sw.isSwitchOn)
-            {
-                currentWattage += sw.wattageValue;
-            }
-        }
-
+        puzzleManager = GetComponentInParent<PuzzleManager>();
+        animator = GetComponent<Animator>();
         UpdateUI();
 
-        // Check for puzzle completion
-        if (currentWattage == targetWattage)
+        isSwitchOn = Random.value > 0.5f;
+        animator.SetBool("IsSwitchOn", isSwitchOn);
+    }
+
+    public void ToggleSwitch()
+    {
+        if (isActive)
         {
-            isCompleted = true;
-            Debug.Log("Puzzle Completed!");
+            isSwitchOn = !isSwitchOn;
+            animator.SetBool("IsSwitchOn", isSwitchOn);
+            puzzleManager.UpdateCurrentWattage(isSwitchOn ? wattageValue : -wattageValue);
+            UpdateUI();
         }
     }
 
-    void UpdateUI()
+    public void UpdateUI()
     {
-        targetWattageText.text = "Target Wattage: " + targetWattage;
-        currentWattageText.text = "Current Wattage: " + currentWattage;
+        switchValueText.text = "Target: " + wattageValue;
     }
 }
+

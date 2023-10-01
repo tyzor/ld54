@@ -1,5 +1,7 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class PuzzleManager : MonoBehaviour
 {
@@ -8,93 +10,53 @@ public class PuzzleManager : MonoBehaviour
     public Vector3 puzzleCameraOffset;
     public LayerMask puzzleLayer;
     public PlayerMovement playerMovement;
-    public Puzzle[] puzzles;  // Reference to an array of Puzzle script objects
-    public float resetTimer = 300f;  // Set the timer for resetting puzzles
-
-    private Puzzle selectedPuzzle;
-    private Transform puzzleTransform;
-    private bool isPuzzleActive = false;
+    public WattageCounterPuzzle[] puzzles;
+    public Text mainDisplayText;
+    public float resetTimer = 300f;
+    private int totalWattage;
+    private int mainDisplayValue;
 
     void Start()
     {
         puzzleLayer = LayerMask.GetMask("puzzleLayer");
+        //RandomizePuzzle();
         StartCoroutine(PuzzleResetCoroutine());
     }
 
-public void DetectPuzzle(Ray ray)  // Change this line to make the method public
+    public void UpdateCurrentWattage(int newWattage)
+    {
+        totalWattage += newWattage;
+        CheckPuzzleCompletion();
+    }
+
+// Commented out the entire RandomizePuzzle method
+/*
+void RandomizePuzzle()
 {
-    RaycastHit hit;
-
-    Debug.DrawLine(ray.origin, ray.origin + ray.direction * 10f, Color.red, 2f);  // Visualize the raycast
-
-    if (Physics.Raycast(ray, out hit, Mathf.Infinity, puzzleLayer))
+    int[] leverValues = new int[4];
+    for (int i = 0; i < 4; i++)
     {
-        foreach (Puzzle puzzle in puzzles)
-        {
-            if (puzzle.puzzleTransform == hit.transform)
-            {
-                selectedPuzzle = puzzle;
-                puzzleTransform = hit.transform;
-                ActivatePuzzle();
-                break;
-            }
-        }
+        leverValues[i] = Random.Range(1, 10);
+        puzzles[i].wattageValue = leverValues[i];
+        puzzles[i].UpdateUI();
     }
+
+    int leversToUse = Random.Range(2, 5);
+    mainDisplayValue = 0;
+    for (int i = 0; i < leversToUse; i++)
+    {
+        mainDisplayValue += leverValues[i];
+    }
+    mainDisplayText.text = "Main Display: " + mainDisplayValue;  // This line should now work with TMP_Text
 }
+*/
 
-    void ActivatePuzzle()
+    void CheckPuzzleCompletion()
     {
-        if (selectedPuzzle != null)
+        if (totalWattage == mainDisplayValue)
         {
-            isPuzzleActive = true;
-
-            // Set the position and orientation of the puzzle camera
-            Vector3 puzzleCameraPosition = selectedPuzzle.puzzleTransform.position + puzzleCameraOffset;
-            puzzleCamera.transform.position = puzzleCameraPosition;
-            puzzleCamera.transform.LookAt(selectedPuzzle.puzzleTransform);
-
-            // Enable the puzzle camera and disable the player camera
-            puzzleCamera.gameObject.SetActive(true);
-            playerCamera.gameObject.SetActive(false);
-
-            // Disable player movement
-            playerMovement.enabled = false;
-
-            // Unlock the cursor and make it visible
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
+            // Mark the puzzle as complete and do other necessary actions
         }
-        else
-        {
-            Debug.LogWarning("No puzzle selected. Cannot activate puzzle.");
-        }
-    }
-
-    void Update()
-    {
-        if (isPuzzleActive)
-        {
-            if (Input.GetKeyDown(KeyCode.Q))
-            {
-                DeactivatePuzzle();
-            }
-        }
-    }
-
-    void DeactivatePuzzle()
-    {
-        isPuzzleActive = false;
-
-        // Enable the player camera and disable the puzzle camera
-        playerCamera.gameObject.SetActive(true);
-        puzzleCamera.gameObject.SetActive(false);
-
-        // Re-enable player movement
-        playerMovement.enabled = true;
-
-        // Lock the cursor and make it invisible
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
     }
 
     private IEnumerator PuzzleResetCoroutine()
@@ -102,16 +64,24 @@ public void DetectPuzzle(Ray ray)  // Change this line to make the method public
         while (true)
         {
             yield return new WaitForSeconds(resetTimer);
-
-            int randomIndex = Random.Range(0, puzzles.Length);
-            Puzzle puzzleToReset = puzzles[randomIndex];
-            puzzleToReset.isCompleted = false;
-            ResetPuzzle(puzzleToReset);
+        // RandomizePuzzle();  // Commented out this line
         }
     }
 
-    private void ResetPuzzle(Puzzle puzzle)
+     public void DetectPuzzle(Ray ray)
     {
-        // Implement the logic to reset the physical state of the puzzle
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, puzzleLayer))
+        {
+            foreach (WattageCounterPuzzle puzzle in puzzles)
+            {
+                if (puzzle.transform == hit.transform)
+                {
+                    // ... do something when a puzzle is detected
+                    break;
+                }
+            }
+        }
     }
+
 }
