@@ -57,6 +57,12 @@ public class CrankPuzzles: MonoBehaviour
 
     void UpdatePuzzleStatus()
     {
+        if(fillValue <= 0)
+        {
+            // FAILED
+            this._puzzle.SetPuzzleState(Puzzle.PuzzleState.Fail);
+            return;
+        }
 
         if(fillValue < .5f)
         {
