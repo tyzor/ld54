@@ -62,7 +62,7 @@ public class PuzzleManager : MonoBehaviour
 
     IEnumerator StartTestPuzzle()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(10);
         
         foreach(var puzzle in m_CurrentPuzzles)
         {
