@@ -53,7 +53,29 @@ public class PlayerInteraction : MonoBehaviour
                     {
                         EngagePuzzle(hitPuzzle);
                     }
+                } else {
+                    // Check if we hit the doors button
+                    IInteractable interactable;
+                    if(hit.transform.gameObject.TryGetComponent<IInteractable>(out interactable))
+                    {
+                        Debug.Log($"{hit.transform.name}");
+                        
+                        ButtonInteractable buttonInteractable;
+                        if(hit.transform.TryGetComponent<ButtonInteractable>(out buttonInteractable))
+                        {
+                            buttonInteractable.highlight.TriggerHighlight();   
+                        }
+
+                        if(Input.GetKeyDown(KeyCode.E))
+                        {
+                            interactable.Interact();
+                        }
+                           
+                    }
+
+                    
                 }
+
             }
 
             return;

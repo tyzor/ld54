@@ -9,7 +9,8 @@ public enum SFX
 {
     NONE = 0,
     DING = 1,
-    GAME_OVER = 2
+    CRANK = 2,
+    GAME_OVER = 20,
 
 }
 

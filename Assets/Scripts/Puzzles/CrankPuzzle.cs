@@ -46,11 +46,12 @@ public class CrankPuzzles: MonoBehaviour
         if(_puzzle.IsEngaged && Input.GetMouseButton(0))
         {
             // Fill meter at speed
-
             crank.transform.Rotate(Vector3.forward, crankSpeed * Time.deltaTime, Space.Self);
-            
+            SFXController.PlaySound(SFX.CRANK);
             fillValue += fillSpeed * Time.deltaTime;
-        } 
+        }  else {
+            crank.transform.Rotate(Vector3.forward, -crankSpeed/2f * Time.deltaTime, Space.Self);
+        }
         fillValue = Mathf.Clamp(fillValue, 0, 1f);
         UpdatePuzzleStatus();        
     }

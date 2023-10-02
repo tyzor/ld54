@@ -13,6 +13,8 @@ public class DoorManager : MonoBehaviour
 
     private Animator m_DoorAnimator;
 
+    public bool GetDoorStatus() { return m_DoorOpen; }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -23,19 +25,24 @@ public class DoorManager : MonoBehaviour
     void Update()
     {
         // TODO -- remove, used for testing
+        /*
         if(Input.GetKey(KeyCode.F) && !isToggling)
         {
             StartCoroutine(ToggleDoors());
         }
+        */
+        
     }
 
-    private void OpenDoor()
+    public void OpenDoor()
     {
+        if(m_DoorOpen) return;
         m_DoorAnimator.Play("DoorsOpen");
         m_DoorOpen = true;
     }
-    private void CloseDoor()
+    public void CloseDoor()
     {
+        if(!m_DoorOpen) return;
         m_DoorAnimator.Play("DoorsClose");
         m_DoorOpen = false;
     }
