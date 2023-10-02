@@ -1205,6 +1205,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 843156265}
+  - {fileID: 5017494531758840194}
   m_Father: {fileID: 669391567}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &995731657
@@ -1224,6 +1225,9 @@ MonoBehaviour:
   resumeButton: {fileID: 1557118910}
   gameManager: {fileID: 1672991181}
   pauseScreen: {fileID: 843156264}
+  gameOverScreen: {fileID: 5017494531758840197}
+  gameOverText: {fileID: 5017494531758840196}
+  restartGameButton: {fileID: 5017494531758840195}
 --- !u!1 &1030040724
 GameObject:
   m_ObjectHideFlags: 0
@@ -1760,6 +1764,110 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1001 &5017494531758840193
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 995731656}
+    m_Modifications:
+    - target: {fileID: 2229573408915416125, guid: 9ce4de8cf83740245bebc7df6049efd0,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2229573408915416125, guid: 9ce4de8cf83740245bebc7df6049efd0,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2229573408915416125, guid: 9ce4de8cf83740245bebc7df6049efd0,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2229573408915416125, guid: 9ce4de8cf83740245bebc7df6049efd0,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2229573408915416125, guid: 9ce4de8cf83740245bebc7df6049efd0,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2229573408915416125, guid: 9ce4de8cf83740245bebc7df6049efd0,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2229573408915416125, guid: 9ce4de8cf83740245bebc7df6049efd0,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2229573408915416125, guid: 9ce4de8cf83740245bebc7df6049efd0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2229573408915416125, guid: 9ce4de8cf83740245bebc7df6049efd0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2229573408915416125, guid: 9ce4de8cf83740245bebc7df6049efd0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7624963531332208505, guid: 9ce4de8cf83740245bebc7df6049efd0,
+        type: 3}
+      propertyPath: m_Name
+      value: GameOverScreen
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9ce4de8cf83740245bebc7df6049efd0, type: 3}
+--- !u!4 &5017494531758840194 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2229573408915416125, guid: 9ce4de8cf83740245bebc7df6049efd0,
+    type: 3}
+  m_PrefabInstance: {fileID: 5017494531758840193}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5017494531758840195 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 936421369974941004, guid: 9ce4de8cf83740245bebc7df6049efd0,
+    type: 3}
+  m_PrefabInstance: {fileID: 5017494531758840193}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5017494531758840196 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5939522811792788247, guid: 9ce4de8cf83740245bebc7df6049efd0,
+    type: 3}
+  m_PrefabInstance: {fileID: 5017494531758840193}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &5017494531758840197 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7624963531332208505, guid: 9ce4de8cf83740245bebc7df6049efd0,
+    type: 3}
+  m_PrefabInstance: {fileID: 5017494531758840193}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5296341790123006968
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1959,6 +2067,20 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchorMin.x
       value: 0.8333333
+      objectReference: {fileID: 0}
+    - target: {fileID: 5824226866636439337, guid: 3af3e7aa31942124da01b902815c70a4,
+        type: 3}
+      propertyPath: m_text
+      value: 'Controls
+
+        P - Pause
+
+        E - Interact
+
+        Q - Exit
+        Interact
+
+        Mouse to look around or click on interactions'
       objectReference: {fileID: 0}
     - target: {fileID: 7702484435424307234, guid: 3af3e7aa31942124da01b902815c70a4,
         type: 3}

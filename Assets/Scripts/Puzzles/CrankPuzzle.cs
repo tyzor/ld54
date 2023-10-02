@@ -64,7 +64,7 @@ public class CrankPuzzles: MonoBehaviour
             return;
         }
 
-        if(fillValue < .5f)
+        if(fillValue < .1f)
         {
             this._puzzle.SetPuzzleState(Puzzle.PuzzleState.Bad);
         } else {

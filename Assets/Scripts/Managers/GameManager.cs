@@ -58,9 +58,7 @@ public class GameManager : MonoBehaviour
         ELEVATOR_CONDITION condition = elevator.CheckCondition();
         if(condition == ELEVATOR_CONDITION.Failed)
         {
-            // TODO -- game over screen
-            Debug.Log("GAME OVER");
-            PauseGame();
+            uiManager.showGameEnd("GAME OVER");
             return;
         } else if(condition == ELEVATOR_CONDITION.Errors)
         {
@@ -70,9 +68,7 @@ public class GameManager : MonoBehaviour
         {
             if(elevator.floorNumber == 1)
             {
-                // TODO -- GAME WIN
-                Debug.Log("WIN");
-                PauseGame();
+                uiManager.showGameEnd("YOU HAVE ESCAPED");
                 return;
             }
 
