@@ -43,7 +43,7 @@ public class PlayerInteraction : MonoBehaviour
             Debug.DrawRay(Camera.main.transform.position,ray.direction * PuzzleRange, Color.yellow);
             if(Physics.Raycast(ray, out hit, PuzzleRange, layerMask))
             {
-                Debug.Log(hit.transform.name);
+                //Debug.Log(hit.transform.name);
                 Puzzle hitPuzzle;
                 if(hit.transform.gameObject.TryGetComponent<Puzzle>(out hitPuzzle))
                 {

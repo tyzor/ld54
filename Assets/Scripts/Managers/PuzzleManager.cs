@@ -13,6 +13,8 @@ public class PuzzleManager : MonoBehaviour
     private List<Transform> m_PuzzlePoints;
 
     private List<Puzzle> m_ActivePuzzles;
+    public List<Puzzle> GetActivePuzzles() { return m_ActivePuzzles; }
+        
     private List<Puzzle> m_CurrentPuzzles;
 
 
@@ -35,8 +37,8 @@ public class PuzzleManager : MonoBehaviour
    
         SpawnPuzzles();
 
+        // TODO -- remove debugging
         StartCoroutine(StartTestPuzzle());
-
 
     }
 
@@ -60,7 +62,7 @@ public class PuzzleManager : MonoBehaviour
 
     IEnumerator StartTestPuzzle()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(10);
         
         foreach(var puzzle in m_CurrentPuzzles)
         {
@@ -74,4 +76,5 @@ public class PuzzleManager : MonoBehaviour
 
         StartCoroutine(StartTestPuzzle());
     }
+
 }
