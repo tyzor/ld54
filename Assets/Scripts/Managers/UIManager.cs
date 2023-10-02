@@ -90,6 +90,7 @@ public class UIManager : MonoBehaviour
     public void showGameEnd(string endMessage)
     {
         Time.timeScale = 0;
+        Cursor.lockState = CursorLockMode.None;
         gameOverText.SetText(endMessage);
         gameOverScreen.SetActive(true);
     }
