@@ -25,29 +25,35 @@ public class TileSliderManager : MonoBehaviour
         // ... Add any activation logic here ...
     }
 
-    void InitializePuzzle()
+void InitializePuzzle()
+{
+    // Assuming tileInfoArray is already populated in the Inspector
+    // Randomize the tileInfoArray
+    // ... Add randomization logic here ...
+
+    float totalWidth = (gridSize - 1) * 1.1f;  // total width of all tiles including spacing
+    Vector3 startPos = new Vector3(-totalWidth / 2, totalWidth / 2, 0);  // starting position to center the tiles
+
+    for (int y = 0; y < gridSize; y++)
     {
-        // Assuming tileInfoArray is already populated in the Inspector
-        // Randomize the tileInfoArray
-        // ... Add randomization logic here ...
-
-        for (int y = 0; y < gridSize; y++)
+        for (int x = 0; x < gridSize; x++)
         {
-            for (int x = 0; x < gridSize; x++)
-            {
-                int index = y * gridSize + x;
-                TileInfo tileInfo = tileInfoArray[index];
-                tileInfo.tileObject.transform.localPosition = new Vector3(x, y, 0);
+            int index = y * gridSize + x;
+            TileInfo tileInfo = tileInfoArray[index];
 
-                // If it's block_9, hide it and store its position as the empty tile position
-                if (tileInfo.number == 9)
-                {
-                    tileInfo.tileObject.SetActive(false);
-                    emptyTilePosition = new Vector2Int(x, y);
-                }
+            // Adjusting the position calculation to include the spacing and starting position
+            tileInfo.tileObject.transform.localPosition = startPos + new Vector3(x * 1.1f, -y * 1.1f, 0);
+
+            // If it's block_9, hide it and store its position as the empty tile position
+            if (tileInfo.number == 9)
+            {
+                tileInfo.tileObject.SetActive(false);
+                emptyTilePosition = new Vector2Int(x, y);
             }
         }
     }
+}
+
 
     public void OnTileClicked(GameObject clickedTile)
     {
