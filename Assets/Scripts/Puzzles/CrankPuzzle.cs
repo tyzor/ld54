@@ -22,6 +22,8 @@ public class CrankPuzzles: MonoBehaviour
     [SerializeField]
     float crankSpeed = (float)Math.PI / 10f;
 
+    float crankSoundTimer = 0f;
+
     private Puzzle _puzzle;
 
     private Animator _crankAnimator;
@@ -38,8 +40,11 @@ public class CrankPuzzles: MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         if(_puzzle.state == Puzzle.PuzzleState.Hidden)
             return;
+
+        crankSoundTimer -= Time.deltaTime;
 
         fillValue -= emptySpeed * Time.deltaTime;
 
@@ -47,13 +52,21 @@ public class CrankPuzzles: MonoBehaviour
         {
             // Fill meter at speed
             crank.transform.Rotate(Vector3.forward, crankSpeed * Time.deltaTime, Space.Self);
-            SFXController.PlaySound(SFX.CRANK);
             fillValue += fillSpeed * Time.deltaTime;
         }  else {
+            PlayCrankSound();
             crank.transform.Rotate(Vector3.forward, -crankSpeed/2f * Time.deltaTime, Space.Self);
         }
         fillValue = Mathf.Clamp(fillValue, 0, 1f);
         UpdatePuzzleStatus();        
+    }
+
+    void PlayCrankSound()
+    {
+        if(crankSoundTimer > 0)
+            return;
+        SFXController.PlaySound(SFX.CRANK);
+        crankSoundTimer = 2f;
     }
 
     void UpdatePuzzleStatus()

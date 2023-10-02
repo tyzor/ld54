@@ -102,6 +102,8 @@ public class SlidePuzzle : MonoBehaviour
     // Always swap with the empty space
     void SwapTile(Vector2Int gridPos)
     {
+        SFXController.PlaySound(SFX.BUTTON_CLICK);
+
         //Debug.Log($"SwapTile on {gridPos} {emptyGridPos}");
         int index1 = IndexFromGridPos(gridPos);
         int index2 = IndexFromGridPos(emptyGridPos);

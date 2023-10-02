@@ -13,6 +13,8 @@ public class DoorManager : MonoBehaviour
 
     private Animator m_DoorAnimator;
 
+    
+
     public bool GetDoorStatus() { return m_DoorOpen; }
 
     // Start is called before the first frame update
@@ -31,13 +33,13 @@ public class DoorManager : MonoBehaviour
             StartCoroutine(ToggleDoors());
         }
         */
-        
     }
 
     public void OpenDoor()
     {
         if(m_DoorOpen) return;
         m_DoorAnimator.Play("DoorsOpen");
+        SFXController.PlaySound(SFX.DING);
         m_DoorOpen = true;
     }
     public void CloseDoor()
