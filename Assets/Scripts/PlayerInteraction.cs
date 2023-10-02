@@ -23,6 +23,8 @@ public class PlayerInteraction : MonoBehaviour
     [SerializeField]
     private CinemachineVirtualCamera PlayerCamera;
 
+    private Puzzle currentPuzzle;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -43,12 +45,18 @@ public class PlayerInteraction : MonoBehaviour
             {
                 Debug.Log(hit.transform.name);
                 Puzzle hitPuzzle;
-                if( Input.GetKeyDown(KeyCode.E) && hit.transform.gameObject.TryGetComponent<Puzzle>(out hitPuzzle))
+                if(hit.transform.gameObject.TryGetComponent<Puzzle>(out hitPuzzle))
                 {
-                    EngagePuzzle(hitPuzzle);
+                    // highlight puzzle
+                    hitPuzzle.highlight.TriggerHighlight();
+                    if(Input.GetKeyDown(KeyCode.E))
+                    {
+                        EngagePuzzle(hitPuzzle);
+                    }
                 }
-                
             }
+
+            return;
         }
 
         if(state == PlayerState.Interacting)
@@ -57,13 +65,16 @@ public class PlayerInteraction : MonoBehaviour
             {
                 DisengagePuzzle();
             }
+
+            return;
         }
     }
-
 
     void EngagePuzzle(Puzzle puzzle)
     {
         state = PlayerState.Interacting;
+        currentPuzzle = puzzle;
+        puzzle.IsEngaged = true;
 
         _playerMovement.enabled = false;
 
@@ -82,6 +93,8 @@ public class PlayerInteraction : MonoBehaviour
     void DisengagePuzzle()
     {
         state = PlayerState.Move;
+        if(currentPuzzle != null)
+            currentPuzzle.IsEngaged = false;
 
         _playerMovement.enabled = true;
 

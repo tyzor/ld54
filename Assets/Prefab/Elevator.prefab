@@ -581,7 +581,7 @@ GameObject:
   - component: {fileID: 4790430957752065617}
   - component: {fileID: 802281668674125227}
   - component: {fileID: 513600259659986069}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Elevator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1689,7 +1689,7 @@ PrefabInstance:
     - target: {fileID: 3553638237397188792, guid: ef8b3ff306550334e82794d97bbacdad,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4429030554838115620, guid: ef8b3ff306550334e82794d97bbacdad,
         type: 3}

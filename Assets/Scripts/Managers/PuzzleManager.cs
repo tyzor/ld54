@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -48,7 +49,8 @@ public class PuzzleManager : MonoBehaviour
     void SpawnPuzzles() {
         foreach(var pt in m_PuzzlePoints)
         {
-            var puzzle = Instantiate(PuzzlePrefabs[0]);
+            int rnd = UnityEngine.Random.Range(0,PuzzlePrefabs.Count);
+            var puzzle = Instantiate(PuzzlePrefabs[rnd]);
             puzzle.transform.position = pt.position;
             puzzle.transform.rotation = pt.rotation;
 
