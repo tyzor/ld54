@@ -49,8 +49,6 @@ public class UIManager : MonoBehaviour
         restartGameButton.onClick.AddListener(OnGameRestart);
         gameOverScreen.SetActive(false);
 
-        musicVolumeSlider.value = -20f;
-        sfxVolumeSlider.value = -20f;
     }
 
     private void OnResumePressed()
@@ -59,11 +57,12 @@ public class UIManager : MonoBehaviour
     }
     private void OnMusicVolumeChanged(float volume)
     {
-        MusicController.SetVolume(volume);
+        MusicController.SetPercentVolume(volume);
     }
     private void OnSFXVolumeChanged(float volume)
     {
-        SFXController.SetVolume(volume);
+        SFXController.PlaySoundUnique(SFX.BUTTON_CLICK);
+        SFXController.SetPercentVolume(volume);
     }
 
     public void showPause()

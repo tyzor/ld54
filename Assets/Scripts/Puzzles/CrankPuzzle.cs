@@ -54,7 +54,8 @@ public class CrankPuzzles: MonoBehaviour
             crank.transform.Rotate(Vector3.forward, crankSpeed * Time.deltaTime, Space.Self);
             fillValue += fillSpeed * Time.deltaTime;
         }  else {
-            PlayCrankSound();
+            //PlayCrankSound();
+            SFXController.PlaySoundUnique(SFX.CRANK,1,0);
             crank.transform.Rotate(Vector3.forward, -crankSpeed/2f * Time.deltaTime, Space.Self);
         }
         fillValue = Mathf.Clamp(fillValue, 0, 1f);

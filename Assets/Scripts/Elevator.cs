@@ -100,6 +100,7 @@ public class Elevator : MonoBehaviour
         // Open door
         if(doorMalfunctionFloorCounter > 3)
         {
+            doorMalfunctionFloorCounter = 0;
             DoorManager.OpenDoor();
         }
 

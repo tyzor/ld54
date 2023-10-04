@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class DoorManager : MonoBehaviour
@@ -13,7 +14,9 @@ public class DoorManager : MonoBehaviour
 
     private Animator m_DoorAnimator;
 
-    
+    [SerializeField]
+    private Transform SmokePosition;
+    private GameObject smokeVFX;
 
     public bool GetDoorStatus() { return m_DoorOpen; }
 
@@ -40,12 +43,16 @@ public class DoorManager : MonoBehaviour
         if(m_DoorOpen) return;
         m_DoorAnimator.Play("DoorsOpen");
         SFXController.PlaySound(SFX.DING);
+        smokeVFX = VFXManager.CreateVFX(VFX.SMOKE, SmokePosition.position, SmokePosition);
+        smokeVFX.transform.rotation = SmokePosition.rotation;
         m_DoorOpen = true;
     }
     public void CloseDoor()
     {
         if(!m_DoorOpen) return;
         m_DoorAnimator.Play("DoorsClose");
+        if(smokeVFX != null)
+            smokeVFX.GetComponent<ParticleSystem>().Stop();
         m_DoorOpen = false;
     }
 

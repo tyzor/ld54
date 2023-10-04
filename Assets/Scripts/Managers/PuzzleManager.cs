@@ -52,7 +52,7 @@ public class PuzzleManager : MonoBehaviour
         foreach(var pt in m_PuzzlePoints)
         {
             int rnd = UnityEngine.Random.Range(0,PuzzlePrefabs.Count);
-            var puzzle = Instantiate(PuzzlePrefabs[rnd]);
+            var puzzle = Instantiate(PuzzlePrefabs[1]);
             puzzle.transform.position = pt.position;
             puzzle.transform.rotation = pt.rotation;
 

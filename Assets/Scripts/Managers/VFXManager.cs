@@ -47,6 +47,7 @@ public class VFXManager : MonoBehaviour
     {
         return _instance.TryCreateVFX(vfx, worldPosition, parent);
     }
+    
 
     //============================================================================================================//
 

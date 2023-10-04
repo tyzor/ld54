@@ -41,23 +41,27 @@ public class SFXController : MonoBehaviour
         _instance.TryPlaySound(sfx, volume);
     }
 
-    public static void PlaySoundUnique(SFX sfx, float volume = 1f)
+    // Only play sound if it's not already playing
+    public static void PlaySoundUnique(SFX sfx, float volume = 1f, float delay = 0)
     {
         if(_instance._sfxTracker.ContainsKey(sfx) 
             && _instance._sfxTracker[sfx])
         {
-            _instance.StartCoroutine(_instance.clearSoundTracker(sfx));
             return;
-        }
+        }        
 
-        _instance._sfxTracker[sfx] = true;
+        // Default delay is the length of the clip
+        if(delay <= 0)
+            delay = _instance._sfxDatas[sfx].clip.length;
 
-        _instance.TryPlaySound(sfx, volume);
+        _instance.StartCoroutine(_instance.SoundTracker(sfx, volume, delay));
     }
 
-    private IEnumerator clearSoundTracker(SFX sfx)
+    private IEnumerator SoundTracker(SFX sfx, float volume, float delay)
     {
-        yield return new WaitForSeconds(_instance._sfxDatas[sfx].clip.length);
+        _instance.TryPlaySound(sfx, volume);
+        _instance._sfxTracker[sfx] = true;
+        yield return new WaitForSecondsRealtime(delay);
         _instance._sfxTracker[sfx] = false;
     }
 
@@ -115,4 +119,18 @@ public class SFXController : MonoBehaviour
     {
         _instance.audioMixer.SetFloat("Volume", volume);
     }
+    
+    // Takes a volume percentage and converts into an appropriate decibel level
+    // volume - specified between 0.0001 and 1
+    public static void SetPercentVolume(float volume)
+    {
+        // Safety check (log zero is undefined)
+        if(volume <= 0)
+            volume = 0.0001f;
+        if(volume > 1)
+            volume = 1;
+        
+        _instance.audioMixer.SetFloat("Volume", Mathf.Log10(volume)*20f);
+    }
+    
 }
