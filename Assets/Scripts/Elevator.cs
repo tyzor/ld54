@@ -38,8 +38,8 @@ public class Elevator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        floorNumber = 35;
-        subFloorTracker = 35.0f;
+        floorNumber = 30;
+        subFloorTracker = 30.0f;
         doorMalfunctionFloorCounter = 0;
         floorIndicatorText.text = floorNumber.ToString();
     }

@@ -13,6 +13,7 @@ public enum SFX
     CRANK = 2,
     BUTTON_CLICK = 3,
     FLOOR_DING = 4,
+    LEVER = 5,
     GAME_OVER = 20,
 
 }

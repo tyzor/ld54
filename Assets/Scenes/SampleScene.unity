@@ -473,6 +473,8 @@ MonoBehaviour:
   PuzzlePrefabs:
   - {fileID: 1262422279359156493, guid: 12ae937e01e2f934bbe4b4504d908a0d, type: 3}
   - {fileID: 8375392999330083106, guid: 1465c5110eea11549b4d51b72209a522, type: 3}
+  - {fileID: 5223956782211635153, guid: fa69c4e6694f6aa479ade68627bd57de, type: 3}
+  - {fileID: 917007783062592806, guid: c8541e1195f4d4744b8cd559f15569d4, type: 3}
   PuzzlePointsPrefab: {fileID: 8640187583575349972, guid: 3606f38ecee5c194b9cbd5f11e76dd45,
     type: 3}
   playerMovement: {fileID: 1619115028}
@@ -1167,6 +1169,9 @@ MonoBehaviour:
   - name: Crank
     type: 2
     clip: {fileID: 8300000, guid: d6b8ff39251a3784380c6bf1e60dc3f7, type: 3}
+  - name: Lever
+    type: 5
+    clip: {fileID: 8300000, guid: c1c0aceb2d981fb49adf79d4ee515c3f, type: 3}
 --- !u!82 &723012160
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2504,6 +2509,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5939522811792788247, guid: 9ce4de8cf83740245bebc7df6049efd0,
+        type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: e73a58f6e2794ae7b1b7e50b7fb811b0, type: 2}
+    - target: {fileID: 6105501865280443383, guid: 9ce4de8cf83740245bebc7df6049efd0,
+        type: 3}
+      propertyPath: m_fontStyle
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6105501865280443383, guid: 9ce4de8cf83740245bebc7df6049efd0,
+        type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
     - target: {fileID: 7624963531332208505, guid: 9ce4de8cf83740245bebc7df6049efd0,
         type: 3}
       propertyPath: m_Name
@@ -2789,6 +2809,11 @@ PrefabInstance:
 
         Mouse to look around or click on interactions'
       objectReference: {fileID: 0}
+    - target: {fileID: 5824226866636439337, guid: 3af3e7aa31942124da01b902815c70a4,
+        type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
     - target: {fileID: 7702484435424307234, guid: 3af3e7aa31942124da01b902815c70a4,
         type: 3}
       propertyPath: m_SizeDelta.x
@@ -2824,6 +2849,21 @@ PrefabInstance:
       propertyPath: m_MinValue
       value: 0.0001
       objectReference: {fileID: 0}
+    - target: {fileID: 8464776206309912219, guid: 3af3e7aa31942124da01b902815c70a4,
+        type: 3}
+      propertyPath: m_fontStyle
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8464776206309912219, guid: 3af3e7aa31942124da01b902815c70a4,
+        type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+    - target: {fileID: 8787291268491851340, guid: 3af3e7aa31942124da01b902815c70a4,
+        type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: e73a58f6e2794ae7b1b7e50b7fb811b0, type: 2}
     - target: {fileID: 9115430275064831528, guid: 3af3e7aa31942124da01b902815c70a4,
         type: 3}
       propertyPath: m_Value
